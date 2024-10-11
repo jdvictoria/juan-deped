@@ -1,21 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useEffect } from "react";
 
-import HeroImage from "@/assets/images/Hero.png";
-
-import { Button } from "@/components/ui/button"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {
     Tabs,
     TabsContent,
@@ -26,7 +13,20 @@ import {
 import AuthLogin from "@/components/AuthLogin";
 import AuthRegister from "@/components/AuthRegister";
 
+import { useWindowSize } from "@/lib/window";
+
+import HeroImage from "@/assets/images/Hero.png";
+
 export default function Component() {
+    const size = useWindowSize();
+    const [isDesktop, setIsDesktop] = useState(false);
+
+    useEffect(() => {
+        if (size.width !== undefined) {
+            setIsDesktop(size.width >= 673);
+        }
+    }, [size.width]);
+
     return (
         <div className="flex flex-col lg:grid lg:grid-cols-2 min-h-[100dvh]">
             <div className="relative">
@@ -38,7 +38,7 @@ export default function Component() {
                     height={600}
                     style={{ aspectRatio: "800/600", objectFit: "cover" }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
+                <div className={`absolute inset-0 ${isDesktop ? "bg-gradient-to-l" : "bg-gradient-to-t"} from-background to-transparent`} />
             </div>
 
             <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

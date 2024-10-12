@@ -15,7 +15,7 @@ import AuthRegister from "@/components/AuthRegister";
 
 import { useWindowSize } from "@/lib/window";
 
-import HeroImage from "@/assets/images/Hero.png";
+import Hero from "@/assets/images/Hero.png";
 
 export default function Component() {
     const size = useWindowSize();
@@ -31,8 +31,8 @@ export default function Component() {
         <div className="flex flex-col lg:grid lg:grid-cols-2 min-h-[100dvh]">
             <div className="relative">
                 <Image
-                    src={HeroImage}
-                    alt="Hero Image"
+                    src={Hero}
+                    alt="Hero"
                     className="h-full w-full object-cover"
                     width={800}
                     height={600}

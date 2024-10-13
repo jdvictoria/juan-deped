@@ -4,6 +4,7 @@ import { useState } from "react"
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card"
 import {
     Table,
     TableBody,
@@ -102,7 +103,7 @@ export default function DataTable({
     const totalPages = Math.ceil(sortedData.length / itemsPerPage)
 
     return (
-        <div className="w-full space-y-4">
+        <Card className="w-full min-h-[75vh] space-y-4 p-4">
             <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold">{section}</h2>
             </div>
@@ -203,6 +204,6 @@ export default function DataTable({
                     </Button>
                 </div>
             </div>
-        </div>
+        </Card>
     )
 }

@@ -8,19 +8,19 @@ import {
     CardTitle
 } from "@/components/ui/card";
 
-import NameInput from "@/components/input/NameInput";
-import EmailInput from "@/components/input/EmailInput";
-import PasswordInput from "@/components/input/PasswordInput";
-import SelectInput from "@/components/input/SelectInput";
-import SectionInput from "@/components/input/SectionInput";
-import LicenseInput from "@/components/input/LicenseInput";
+import NameInput from "@/components/Input/NameInput";
+import EmailInput from "@/components/Input/EmailInput";
+import PasswordInput from "@/components/Input/PasswordInput";
+import SelectInput from "@/components/Input/SelectInput";
+import SectionInput from "@/components/Input/SectionInput";
+import LicenseInput from "@/components/Input/LicenseInput";
 
 import { ChevronLeft } from "lucide-react";
 
 import schoolsData from "@/data/schools.json";
 import rolesData from "@/data/roles.json";
 
-export default function AuthRegister() {
+export default function Register() {
     const [step, setStep] = useState<number>(1);
 
     const onButtonClick = () => {

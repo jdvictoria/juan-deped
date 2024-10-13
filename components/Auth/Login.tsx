@@ -6,10 +6,10 @@ import {
     CardTitle
 } from "@/components/ui/card";
 
-import EmailInput from "@/components/input/EmailInput";
-import PasswordInput from "@/components/input/PasswordInput";
+import EmailInput from "@/components/Input/EmailInput";
+import PasswordInput from "@/components/Input/PasswordInput";
 
-export default function AuthLogin() {
+export default function Login() {
     return (
         <Card>
             <CardHeader>

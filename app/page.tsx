@@ -9,8 +9,8 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs"
 
-import AuthLogin from "@/components/AuthLogin";
-import AuthRegister from "@/components/AuthRegister";
+import Login from "@/components/Auth/Login";
+import Register from "@/components/Auth/Register";
 
 import Hero from "@/assets/images/Hero.png";
 
@@ -36,10 +36,10 @@ export default function Component() {
                         <TabsTrigger value="register">Register</TabsTrigger>
                     </TabsList>
                     <TabsContent value="login">
-                        <AuthLogin />
+                        <Login />
                     </TabsContent>
                     <TabsContent value="register">
-                        <AuthRegister />
+                        <Register />
                     </TabsContent>
                 </Tabs>
             </div>

@@ -12,12 +12,13 @@ import NameInput from "@/components/input/NameInput";
 import EmailInput from "@/components/input/EmailInput";
 import PasswordInput from "@/components/input/PasswordInput";
 import SelectInput from "@/components/input/SelectInput";
+import SectionInput from "@/components/input/SectionInput";
+import LicenseInput from "@/components/input/LicenseInput";
 
 import { ChevronLeft } from "lucide-react";
 
 import schoolsData from "@/data/schools.json";
 import rolesData from "@/data/roles.json";
-import LicenseInput from "@/components/input/LicenseInput";
 
 export default function AuthRegister() {
     const [step, setStep] = useState<number>(1);
@@ -45,33 +46,34 @@ export default function AuthRegister() {
                             <ChevronLeft/>
                         </button>
                     )}
-                    User Registration
+                    {step === 1 && "User Registration"}
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
                     {step === 1 ? (
                         <>
-                            <NameInput />
-                            <EmailInput />
+                            <NameInput/>
+                            <EmailInput/>
 
                             <div className="flex space-x-4">
-                                <PasswordInput label={"Password"} mode={"Register"} />
+                                <PasswordInput label={"Password"} mode={"Register"}/>
                                 <PasswordInput label={"Confirm Password"} mode={"Register"}/>
                             </div>
                         </>
                     ) : (
                         <>
-                            <SelectInput label={"School"} data={schools} />
-                            <SelectInput label={"Role"} data={roles} />
-                            <LicenseInput />
+                            <SelectInput label={"School"} data={schools}/>
+                            <SelectInput label={"Role"} data={roles}/>
+                            <SectionInput/>
+                            <LicenseInput/>
                         </>
                     )}
 
-                <Button type={step === 1 ? "button" : "submit"} className="w-full" onClick={onButtonClick}>
-                    {step === 1 ? "Next" : "Register"}
-                </Button>
-            </form>
+                    <Button type={step === 1 ? "button" : "submit"} className="w-full" onClick={onButtonClick}>
+                        {step === 1 ? "Next" : "Register"}
+                    </Button>
+                </form>
             </CardContent>
         </Card>
     )

@@ -26,7 +26,7 @@ export default function Navigation({
 
     return (
         <aside className="sticky top-0 z-10 flex w-full flex-col border-b bg-background sm:fixed sm:inset-y-0 sm:left-0 sm:w-14 sm:flex-col sm:border-r sm:border-b-0">
-            <nav className="flex flex-row items-center justify-start sm:justify-between gap-4 px-2 py-2 sm:flex-col sm:py-5 h-full">
+            <nav className="flex flex-row items-center justify-center sm:justify-between gap-4 px-2 py-2 sm:flex-col sm:py-5 h-full">
                 <div className="flex flex-row sm:flex-col gap-4">
                     <TooltipProvider>
                         <Tooltip>

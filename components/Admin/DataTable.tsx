@@ -45,6 +45,7 @@ type SortDirection = "asc" | "desc" | null
 interface DataTableProps {
     section: string;
 }
+
 export default function DataTable({
     section
 }: DataTableProps) {
@@ -106,7 +107,7 @@ export default function DataTable({
                 <h2 className="text-2xl font-bold">{section}</h2>
             </div>
 
-            <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-row justify-between items-center gap-x-2">
                 <Input
                     type="search"
                     placeholder="Search..."

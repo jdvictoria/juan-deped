@@ -22,7 +22,7 @@ export default function Component() {
             <NavigationBar activeTab={"users"}/>
 
             <main className={`flex flex-1 ${isDesktop ? "flex-row" : "flex-col"} gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 justify-center items-center`}>
-                <DataTable section={"Approve Users"}/>
+                <DataTable section={"Approval Requests"}/>
 
                 <DataTable section={"Current Users"}/>
             </main>

@@ -45,18 +45,6 @@ export default function Navigation({
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <Button
-                                    variant={activeTab === "messages" ? "default" : "ghost"}
-                                    onClick={() => router.push("/student/messages")}
-                                >
-                                    <Mail className="h-5 w-5"/>
-                                    <span className="sr-only">Mail</span>
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent side="right">Mail</TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
                                     variant={activeTab === "notifications" ? "default" : "ghost"}
                                     onClick={() => router.push("/student/notifications")}
                                 >

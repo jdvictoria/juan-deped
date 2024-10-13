@@ -6,7 +6,7 @@ import NavigationBar from "@/components/Student/NavigationBar";
 
 import { useWindowSize } from "@/lib/window";
 
-export default function Component() {
+export default function StudentSettings() {
     const size = useWindowSize();
     const [isDesktop, setIsDesktop] = useState<boolean>(false);
 

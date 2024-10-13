@@ -9,7 +9,7 @@ import DashboardCalendar from "@/components/Student/DashboardCalendar";
 
 import { useWindowSize } from "@/lib/window";
 
-export default function Component() {
+export default function StudentHome() {
     const size = useWindowSize();
     const [isDesktop, setIsDesktop] = useState<boolean>(false);
 

@@ -7,7 +7,7 @@ import NavigationBar from "@/components/Admin/NavigationBar";
 
 import { useWindowSize } from "@/lib/window";
 
-export default function Component() {
+export default function AdminUsers() {
     const size = useWindowSize();
     const [isDesktop, setIsDesktop] = useState<boolean>(false);
 

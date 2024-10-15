@@ -1,0 +1,34 @@
+[
+  {
+    "id": "modular_print",
+    "label": "Modular (Print)"
+  },
+  {
+    "id": "modular_digital",
+    "label": "Modular (Digital)"
+  },
+  {
+    "id": "online",
+    "label": "Online"
+  },
+  {
+    "id": "educational_television",
+    "label": "Educational Television"
+  },
+  {
+    "id": "radio_based_instruction",
+    "label": "Radio Instruction"
+  },
+  {
+    "id": "homeschooling",
+    "label": "Homeschooling"
+  },
+  {
+    "id": "blended",
+    "label": "Blended"
+  },
+  {
+    "id": "face_to_face",
+    "label": "Face to Face"
+  }
+]

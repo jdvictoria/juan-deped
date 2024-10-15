@@ -20,7 +20,7 @@ export default function Login() {
 
             <CardContent className="space-y-2">
                 <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                    <EmailInput />
+                    <EmailInput  label={"Email Address"}/>
                     <PasswordInput label={"Password"} mode={"Login"} />
 
                     <Button type="submit" className="w-full">

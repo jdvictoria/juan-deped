@@ -12,25 +12,24 @@ import {
     FormMessage
 } from "@/components/ui/form";
 
-interface EmailInputProps {
+interface MobileInputProps {
     label: string;
 }
 
-const emailSchema = z.object({
-    email: z
+const mobileNumberSchema = z.object({
+    mobileNumber: z
         .string()
-        .min(1, { message: "Email is required" })
-        .email({ message: "Invalid email address" }),
+        .regex(/^09\d{9}$/, { message: "Mobile number must start with 09 and be 11 digits long" })
 });
 
-type EmailFormValues = z.infer<typeof emailSchema>;
+type MobileNumberFormValues = z.infer<typeof mobileNumberSchema>;
 
-export default function EmailInput({ label }: EmailInputProps) {
-    const form = useForm<EmailFormValues>({
-        resolver: zodResolver(emailSchema),
+export default function NumberInput({ label }: MobileInputProps) {
+    const form = useForm<MobileNumberFormValues>({
+        resolver: zodResolver(mobileNumberSchema),
     });
 
-    function onSubmit(values: EmailFormValues) {
+    function onSubmit(values: MobileNumberFormValues) {
         console.log(values);
     }
 
@@ -39,14 +38,15 @@ export default function EmailInput({ label }: EmailInputProps) {
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <FormField
                     control={form.control}
-                    name="email"
+                    name="mobileNumber"
                     render={({ field }) => (
                         <FormItem className="flex flex-col space-y-2">
                             <FormLabel>{label}</FormLabel>
                             <FormControl>
                                 <Input
-                                    placeholder="jdelacruz@gmail.com"
-                                    autoComplete="email"
+                                    id="mobileNumber"
+                                    type="tel"
+                                    placeholder="09XXXXXXXXX"
                                     {...field}
                                 />
                             </FormControl>

@@ -15,6 +15,7 @@ import Register from "@/components/Auth/Register";
 import Hero from "@/assets/images/Hero.png";
 
 export default function Component() {
+
     return (
         <div className="flex flex-col lg:grid lg:grid-cols-2 min-h-[100dvh]">
             <div className="relative">
@@ -36,10 +37,10 @@ export default function Component() {
                         <TabsTrigger value="register">Register</TabsTrigger>
                     </TabsList>
                     <TabsContent value="login">
-                        <Login />
+                        <Login/>
                     </TabsContent>
                     <TabsContent value="register">
-                        <Register />
+                        <Register/>
                     </TabsContent>
                 </Tabs>
             </div>

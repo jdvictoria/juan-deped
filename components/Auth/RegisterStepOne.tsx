@@ -22,7 +22,6 @@ interface RegisterStepOneProps {
     email: string;
     mobileNumber: string;
     password: string;
-    passwordRetype: string;
     setFirstName: (firstName: string) => void;
     setMiddleName: (middleName: string) => void;
     setLastName: (lastName: string) => void;
@@ -32,7 +31,6 @@ interface RegisterStepOneProps {
     setEmail: (email: string) => void;
     setMobileNumber: (mobileNumber: string) => void;
     setPassword: (password: string) => void;
-    setPasswordRetype: (passwordRetype: string) => void;
 }
 
 export default function RegisterStepOne({
@@ -45,7 +43,6 @@ export default function RegisterStepOne({
     email,
     mobileNumber,
     password,
-    passwordRetype,
     setFirstName,
     setMiddleName,
     setLastName,
@@ -55,7 +52,6 @@ export default function RegisterStepOne({
     setEmail,
     setMobileNumber,
     setPassword,
-    setPasswordRetype,
 }: RegisterStepOneProps) {
     const [extensions, setExtensions] = useState<string[]>([]);
     const [genders, setGenders] = useState<string[]>([]);
@@ -128,16 +124,15 @@ export default function RegisterStepOne({
                 </div>
             </div>
 
+            <EmailInput
+                label={"Email Address"}
+                placeholder={"jdelacruz@gmail.com"}
+                value={email}
+                setValue={setEmail}
+                required={true}
+            />
+
             <div className="flex space-x-2 w-full">
-                <div className="w-1/2">
-                    <EmailInput
-                        label={"Email Address"}
-                        placeholder={"jdelacruz@gmail.com"}
-                        value={email}
-                        setValue={setEmail}
-                        required={true}
-                    />
-                </div>
                 <div className="w-1/2">
                     <NumberInput
                         label={"Mobile Number"}
@@ -146,24 +141,12 @@ export default function RegisterStepOne({
                         required={true}
                     />
                 </div>
-            </div>
-
-            <div className="flex space-x-2 w-full">
                 <div className="w-1/2">
                     <PasswordInput
                         label={"Password"}
                         mode={"Register"}
                         value={password}
                         setValue={setPassword}
-                        required={true}
-                    />
-                </div>
-                <div className="w-1/2">
-                    <PasswordInput
-                        label={"Confirm Password"}
-                        mode={"Register"}
-                        value={passwordRetype}
-                        setValue={setPasswordRetype}
                         required={true}
                     />
                 </div>

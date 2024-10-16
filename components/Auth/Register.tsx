@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 import { useForm, FormProvider } from "react-hook-form";
 
 import { ChevronLeft } from "lucide-react";
 
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import {
     Card,
     CardContent,
@@ -19,11 +22,15 @@ import RegisterStepFour from "@/components/Auth/RegisterStepFour";
 import RegisterStepFive from "@/components/Auth/RegisterStepFive";
 import RegisterStepSix from "@/components/Auth/RegisterStepSix";
 
+import { registerUser } from "@/lib/auth";
+import { addStudentData } from "@/lib/profile";
+
 export default function Register() {
     const methods = useForm();
-    const onSubmit = (data: any) => console.log(data);
+    const router = useRouter();
 
     const [step, setStep] = useState<number>(1);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const [firstName, setFirstName] = useState<string>("");
     const [middleName, setMiddleName] = useState<string>("");
@@ -34,11 +41,10 @@ export default function Register() {
     const [email, setEmail] = useState<string>("");
     const [mobileNumber, setMobileNumber] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [passwordRetype, setPasswordRetype] = useState<string>("");
 
     const [isWithLrn, setIsWithLrn] = useState<boolean>(false);
     const [isReturning, setIsReturning] = useState<boolean>(false);
-    const [schoolYear, setSchoolYear] = useState<number>(2024);
+    const [schoolYear, setSchoolYear] = useState<number>(0);
     const [gradeLevel, setGradeLevel] = useState<string>("");
     const [birthPlace, setBirthPlace] = useState<string>("");
     const [motherTongue, setMotherTongue] = useState<string>("");
@@ -85,6 +91,174 @@ export default function Register() {
     const [isFirstSemester, setIsFirstSemester] = useState<boolean>(true);
     const [modalities, setModalities] = useState<string[]>([]);
 
+    const isStep6FieldsInvalid = step === 6 && (
+        firstName === "" ||
+        lastName === "" ||
+        birthDate === undefined ||
+        gender === "" ||
+        email === "" ||
+        mobileNumber === "" ||
+        password === "" ||
+        schoolYear === 0 ||
+        gradeLevel === "" ||
+        birthPlace === "" ||
+        motherTongue === "" ||
+        birthCertificate === "" ||
+        learnerReference === "" ||
+        currentHouseNumber === "" ||
+        currentStreet === "" ||
+        currentBarangay === "" ||
+        currentCity === "" ||
+        currentProvince === "" ||
+        currentCountry === "" ||
+        modalities.length === 0
+    );
+
+    const clearForm = () => {
+        setFirstName("");
+        setMiddleName("");
+        setLastName("");
+        setExtensionName("");
+        setBirthDate(undefined);
+        setGender("");
+        setEmail("");
+        setMobileNumber("");
+        setPassword("");
+        setIsWithLrn(false);
+        setIsReturning(false);
+        setSchoolYear(2024);
+        setGradeLevel("");
+        setBirthPlace("");
+        setMotherTongue("");
+        setBirthCertificate("");
+        setLearnerReference("");
+        setIsWithCommunity(false);
+        setCommunity("");
+        setIsBeneficiary(false);
+        setBeneficiary("");
+        setCurrentHouseNumber("");
+        setCurrentStreet("");
+        setCurrentBarangay("");
+        setCurrentCity("");
+        setCurrentProvince("");
+        setCurrentCountry("");
+        setPermanentHouseNumber("");
+        setPermanentStreet("");
+        setPermanentBarangay("");
+        setPermanentCity("");
+        setPermanentProvince("");
+        setPermanentCountry("");
+        setFatherFirstName("");
+        setFatherMiddleName("");
+        setFatherLastName("");
+        setFatherExtensionName("");
+        setMotherFirstName("");
+        setMotherMiddleName("");
+        setMotherLastName("");
+        setMotherExtensionName("");
+        setGuardianFirstName("");
+        setGuardianMiddleName("");
+        setGuardianLastName("");
+        setGuardianExtensionName("");
+        setYearCompleted(2024);
+        setGradeCompleted("");
+        setLastSchoolAttended("");
+        setLastSchoolId("");
+        setTrack("");
+        setStrand("");
+        setIsFirstSemester(true);
+        setModalities([]);
+    }
+
+    const handleSubmit = async () => {
+        setIsLoading(true);
+
+        const result = await registerUser(
+            email,
+            password,
+            firstName,
+            lastName,
+        );
+
+        setIsLoading(false);
+
+        if (result.success) {
+            const userId = result.user?.id;
+
+            const studentData = {
+                firstName,
+                middleName,
+                lastName,
+                extensionName,
+                birthDate,
+                gender,
+                mobileNumber,
+                isWithLrn,
+                isReturning,
+                schoolYear,
+                gradeLevel,
+                birthPlace,
+                motherTongue,
+                birthCertificate,
+                learnerReference,
+                isWithCommunity,
+                community,
+                isBeneficiary,
+                beneficiary,
+                currentHouseNumber,
+                currentStreet,
+                currentBarangay,
+                currentCity,
+                currentProvince,
+                currentCountry,
+                permanentHouseNumber,
+                permanentStreet,
+                permanentBarangay,
+                permanentCity,
+                permanentProvince,
+                permanentCountry,
+                fatherFirstName,
+                fatherMiddleName,
+                fatherLastName,
+                fatherExtensionName,
+                motherFirstName,
+                motherMiddleName,
+                motherLastName,
+                motherExtensionName,
+                guardianFirstName,
+                guardianMiddleName,
+                guardianLastName,
+                guardianExtensionName,
+                yearCompleted,
+                gradeCompleted,
+                lastSchoolAttended,
+                lastSchoolId,
+                track,
+                strand,
+                isFirstSemester,
+                modalities,
+            };
+
+            const addStudentResult = await addStudentData(userId, studentData);
+
+            if (addStudentResult.success) {
+                clearForm();
+                toast("Account registered successfully", {
+                    description: "You need to verify your email before signing in.",
+                });
+                window.location.href = "/";
+            } else {
+                toast("Account registration unsuccessful", {
+                    description: addStudentResult.message,
+                });
+            }
+        } else {
+            toast("Account registration unsuccessful", {
+                description: "Account is already taken with this email.",
+            });
+        }
+    };
+
     return (
         <Card>
             <CardHeader>
@@ -101,7 +275,7 @@ export default function Register() {
                 <StepCounter step={step}/>
 
                 <FormProvider {...methods}>
-                    <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
+                    <form className="space-y-3">
                         {step === 1 && (
                             <RegisterStepOne
                                 firstName={firstName}
@@ -113,7 +287,6 @@ export default function Register() {
                                 email={email}
                                 mobileNumber={mobileNumber}
                                 password={password}
-                                passwordRetype={passwordRetype}
                                 setFirstName={setFirstName}
                                 setMiddleName={setMiddleName}
                                 setLastName={setLastName}
@@ -123,7 +296,6 @@ export default function Register() {
                                 setEmail={setEmail}
                                 setMobileNumber={setMobileNumber}
                                 setPassword={setPassword}
-                                setPasswordRetype={setPasswordRetype}
                             />
                         )}
 
@@ -243,8 +415,11 @@ export default function Register() {
                         )}
                     </form>
                 </FormProvider>
-                <Button className="w-full" onClick={() => setStep(step + 1)}>
-                    Next
+                <Button
+                    className="w-full" onClick={step === 6 ? handleSubmit : () => setStep(step + 1)}
+                    disabled={isLoading || isStep6FieldsInvalid}
+                >
+                    {isLoading ? <Spinner /> : (step === 6 ? "Register" : "Next")}
                 </Button>
             </CardContent>
         </Card>

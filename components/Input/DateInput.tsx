@@ -32,7 +32,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
-interface DateInputProps {
+interface InputProps {
     label: string;
     value: Date | undefined;
     setValue: (value: Date) => void;
@@ -45,7 +45,7 @@ const dateSchema = z.object({
     }),
 });
 
-export default function DateInput({ label, value, setValue, required }: DateInputProps) {
+export default function DateInput({ label, value, setValue, required }: InputProps) {
     const [error, setError] = useState<string | null>(null);
     const [month, setMonth] = useState<number>(value ? value.getMonth() : new Date().getMonth());
     const [year, setYear] = useState<number>(value ? value.getFullYear() : new Date().getFullYear());
@@ -107,75 +107,73 @@ export default function DateInput({ label, value, setValue, required }: DateInpu
     };
 
     return (
-        <div>
-            <FormField
-                name="value"
-                render={() => (
-                    <FormItem className="flex flex-col space-y-1">
-                        <FormLabel>{label}</FormLabel>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <FormControl>
-                                    <Button
-                                        variant={"outline"}
-                                        className={cn(
-                                            "w-full pl-3 text-left font-normal",
-                                            !value && "text-muted-foreground"
-                                        )}
-                                    >
-                                        {value ? (
-                                            format(value, "PPP")
-                                        ) : (
-                                            <span>Pick a date</span>
-                                        )}
-                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                    </Button>
-                                </FormControl>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
-                                <div className="flex justify-between p-2 space-x-1">
-                                    <Select onValueChange={handleYearChange} value={year.toString()}>
-                                        <SelectTrigger className="w-[120px]">
-                                            <SelectValue placeholder="Year" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {years.map((y) => (
-                                                <SelectItem key={y} value={y.toString()}>
-                                                    {y}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                    <Select onValueChange={handleMonthChange} value={month.toString()}>
-                                        <SelectTrigger className="w-[120px]">
-                                            <SelectValue placeholder="Month" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {months.map((m, index) => (
-                                                <SelectItem key={index} value={index.toString()}>
-                                                    {format(m, "MMMM")}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                                <Calendar
-                                    mode="single"
-                                    selected={value}
-                                    onSelect={handleDateSelect}
-                                    month={new Date(year, month)}
-                                    onMonthChange={(newMonth) => {
-                                        setMonth(newMonth.getMonth());
-                                        setYear(newMonth.getFullYear());
-                                    }}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
-                        {error && <FormMessage>{error}</FormMessage>}
-                    </FormItem>
-                )}
-            />
-        </div>
+        <FormField
+            name="value"
+            render={() => (
+                <FormItem className="flex flex-col space-y-1">
+                    <FormLabel>{label}</FormLabel>
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <FormControl>
+                                <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                        "w-full pl-3 text-left font-normal",
+                                        !value && "text-muted-foreground"
+                                    )}
+                                >
+                                    {value ? (
+                                        format(value, "PPP")
+                                    ) : (
+                                        <span>Pick a date</span>
+                                    )}
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                            </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                            <div className="flex justify-between p-2 space-x-1">
+                                <Select onValueChange={handleYearChange} value={year.toString()}>
+                                    <SelectTrigger className="w-[120px]">
+                                        <SelectValue placeholder="Year" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {years.map((y) => (
+                                            <SelectItem key={y} value={y.toString()}>
+                                                {y}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <Select onValueChange={handleMonthChange} value={month.toString()}>
+                                    <SelectTrigger className="w-[120px]">
+                                        <SelectValue placeholder="Month" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {months.map((m, index) => (
+                                            <SelectItem key={index} value={index.toString()}>
+                                                {format(m, "MMMM")}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <Calendar
+                                mode="single"
+                                selected={value}
+                                onSelect={handleDateSelect}
+                                month={new Date(year, month)}
+                                onMonthChange={(newMonth) => {
+                                    setMonth(newMonth.getMonth());
+                                    setYear(newMonth.getFullYear());
+                                }}
+                                initialFocus
+                            />
+                        </PopoverContent>
+                    </Popover>
+                    {error && <FormMessage>{error}</FormMessage>}
+                </FormItem>
+            )}
+        />
     );
 }

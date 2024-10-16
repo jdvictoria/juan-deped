@@ -5,6 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 import TextInput from "@/components/Input/TextInput";
 import SelectInput from "@/components/Input/SelectInput";
+import LicenseInput from "@/components/Input/LicenseInput";
 
 import citiesData from "@/data/cities.json";
 import provincesData from "@/data/provinces.json";
@@ -84,7 +85,7 @@ export default function RegisterStepFour({
 
                 <div className="flex space-x-2 w-full">
                     <div className="w-1/2">
-                        <TextInput
+                        <LicenseInput
                             label={"House No."}
                             placeholder={"1234"}
                             value={currentHouseNumber}
@@ -167,7 +168,7 @@ export default function RegisterStepFour({
 
                         <div className="flex space-x-2 w-full">
                             <div className="w-1/2">
-                                <TextInput
+                                <LicenseInput
                                     label={"House No."}
                                     placeholder={"1234"}
                                     value={permanentHouseNumber}

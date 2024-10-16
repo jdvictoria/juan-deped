@@ -49,33 +49,31 @@ export default function SelectInput({
     };
 
     return (
-        <div>
-            <FormField
-                name="select"
-                render={() => (
-                    <FormItem className="flex flex-col space-y-1">
-                        <FormLabel>{label}</FormLabel>
-                        <FormControl>
-                            <Select
-                                onValueChange={handleChange}
-                                required={required}
-                            >
-                                <SelectTrigger className="border rounded-md p-2 w-full">
-                                    <SelectValue placeholder={value || "Select an item"} />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {data.map((item: string, index: number) => (
-                                        <SelectItem key={index} value={item}>
-                                            {item}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </FormControl>
-                        {error && <FormMessage>{error}</FormMessage>}
-                    </FormItem>
-                )}
-            />
-        </div>
+        <FormField
+            name="select"
+            render={() => (
+                <FormItem className="flex flex-col space-y-1">
+                    <FormLabel>{label}</FormLabel>
+                    <FormControl>
+                        <Select
+                            onValueChange={handleChange}
+                            required={required}
+                        >
+                            <SelectTrigger className="border rounded-md p-2 w-full">
+                                <SelectValue placeholder={value || "Select an item"} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {data.map((item: string, index: number) => (
+                                    <SelectItem key={index} value={item}>
+                                        {item}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </FormControl>
+                    {error && <FormMessage>{error}</FormMessage>}
+                </FormItem>
+            )}
+        />
     );
 }

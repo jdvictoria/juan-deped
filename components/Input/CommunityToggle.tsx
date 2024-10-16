@@ -41,7 +41,7 @@ export default function CommunityToggle({
                     placeholder={"Igorot"}
                     value={community}
                     setValue={setCommunity}
-                    required={true}
+                    required={false}
                 />
             )}
         </div>

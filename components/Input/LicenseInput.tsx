@@ -10,7 +10,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 
-interface LicenseInputProps {
+interface InputProps {
     label: string;
     placeholder: string;
     value: string;
@@ -22,7 +22,7 @@ const licenseSchema = z.object({
     license: z.string().min(2, { message: "License must be at least 2 characters" })
 });
 
-export default function LicenseInput({ label, placeholder, value, setValue, required }: LicenseInputProps) {
+export default function LicenseInput({ label, placeholder, value, setValue, required }: InputProps) {
     const [error, setError] = useState<string | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,27 +38,25 @@ export default function LicenseInput({ label, placeholder, value, setValue, requ
     };
 
     return (
-        <div>
-            <FormField
-                name="license"
-                render={() => (
-                    <FormItem className="flex flex-col space-y-1">
-                        <FormLabel>{label}</FormLabel>
-                        <FormControl>
-                            <Input
-                                id="license"
-                                type="text"
-                                placeholder={placeholder}
-                                value={value}
-                                onChange={handleChange}
-                                autoComplete="off"
-                                required={required}
-                            />
-                        </FormControl>
-                        {error && <FormMessage>{error}</FormMessage>}
-                    </FormItem>
-                )}
-            />
-        </div>
+        <FormField
+            name="license"
+            render={() => (
+                <FormItem className="flex flex-col space-y-1">
+                    <FormLabel>{label}</FormLabel>
+                    <FormControl>
+                        <Input
+                            id="license"
+                            type="text"
+                            placeholder={placeholder}
+                            value={value}
+                            onChange={handleChange}
+                            autoComplete="off"
+                            required={required}
+                        />
+                    </FormControl>
+                    {error && <FormMessage>{error}</FormMessage>}
+                </FormItem>
+            )}
+        />
     );
 }

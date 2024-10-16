@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
-import TextInput from "@/components/Input/TextInput";
+import LicenseInput from "@/components/Input/LicenseInput";
 
 interface ToggleProps {
     isBeneficiary: boolean;
@@ -36,7 +36,7 @@ export default function BeneficiaryToggle({
             </div>
 
             {isBeneficiary && (
-                <TextInput
+                <LicenseInput
                     label={"4Ps Household ID Number"}
                     placeholder={"XXXXXX"}
                     value={beneficiary}

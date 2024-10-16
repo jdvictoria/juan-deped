@@ -47,27 +47,25 @@ export default function TextInput({
     };
 
     return (
-        <div>
-            <FormField
-                name="name"
-                render={() => (
-                    <FormItem className="flex flex-col space-y-1">
-                        <FormLabel>{label}</FormLabel>
-                        <FormControl>
-                            <Input
-                                id="name"
-                                type="text"
-                                placeholder={placeholder}
-                                value={value}
-                                onChange={handleChange}
-                                autoComplete="name"
-                                required={required}
-                            />
-                        </FormControl>
-                        {error && <FormMessage>{error}</FormMessage>}
-                    </FormItem>
-                )}
-            />
-        </div>
+        <FormField
+            name="name"
+            render={() => (
+                <FormItem className="flex flex-col space-y-1">
+                    <FormLabel>{label}</FormLabel>
+                    <FormControl>
+                        <Input
+                            id="name"
+                            type="text"
+                            placeholder={placeholder}
+                            value={value}
+                            onChange={handleChange}
+                            autoComplete="name"
+                            required={required}
+                        />
+                    </FormControl>
+                    {error && <FormMessage>{error}</FormMessage>}
+                </FormItem>
+            )}
+        />
     );
 }

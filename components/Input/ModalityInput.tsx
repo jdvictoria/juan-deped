@@ -3,13 +3,14 @@ import { z } from "zod";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-    FormControl,
+    FormControl, 
+    FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
 
-interface ModalityInputProps {
+interface InputProps {
     data: {
         id: string;
         label: string;
@@ -24,7 +25,7 @@ const FormSchema = z.object({
     }),
 });
 
-export default function ModalityInput({ data, value, setValue }: ModalityInputProps) {
+export default function ModalityInput({ data, value, setValue }: InputProps) {
     const [error, setError] = useState<string | null>(null);
 
     const handleCheckboxChange = (itemId: string) => {
@@ -43,29 +44,32 @@ export default function ModalityInput({ data, value, setValue }: ModalityInputPr
     };
 
     return (
-        <div>
-            <FormItem className="flex flex-col space-y-2">
-                <FormLabel className="text-sm font-semibold">Preferred Learning Modality/ies</FormLabel>
-                <div className="grid grid-cols-2 gap-4">
-                    {data.map((item) => (
-                        <FormItem
-                            key={item.id}
-                            className="flex flex-row items-start space-x-3 space-y-0"
-                        >
-                            <FormControl>
-                                <Checkbox
-                                    checked={value.includes(item.id)}
-                                    onCheckedChange={() => handleCheckboxChange(item.id)}
-                                />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                                {item.label}
-                            </FormLabel>
-                        </FormItem>
-                    ))}
-                </div>
-                {error && <FormMessage>{error}</FormMessage>}
-            </FormItem>
-        </div>
+        <FormField
+            name="items"
+            render={() => (
+                <FormItem className="flex flex-col space-y-2">
+                    <FormLabel className="text-sm font-semibold">Preferred Learning Modality/ies</FormLabel>
+                    <div className="grid grid-cols-2 gap-4">
+                        {data.map((item) => (
+                            <FormItem
+                                key={item.id}
+                                className="flex flex-row items-start space-x-3 space-y-0"
+                            >
+                                <FormControl>
+                                    <Checkbox
+                                        checked={value.includes(item.id)}
+                                        onCheckedChange={() => handleCheckboxChange(item.id)}
+                                    />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                    {item.label}
+                                </FormLabel>
+                            </FormItem>
+                        ))}
+                    </div>
+                    {error && <FormMessage>{error}</FormMessage>}
+                </FormItem>
+            )}
+        />
     );
 }

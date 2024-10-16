@@ -47,27 +47,25 @@ export default function EmailInput({
     };
 
     return (
-        <div>
-            <FormField
-                name="email"
-                render={() => (
-                    <FormItem className="flex flex-col space-y-1">
-                        <FormLabel>{label}</FormLabel>
-                        <FormControl>
-                            <Input
-                                id="email"
-                                type="email"
-                                placeholder={placeholder}
-                                value={value}
-                                onChange={handleChange}
-                                autoComplete="email"
-                                required={required}
-                            />
-                        </FormControl>
-                        {error && <FormMessage>{error}</FormMessage>}
-                    </FormItem>
-                )}
-            />
-        </div>
+        <FormField
+            name="email"
+            render={() => (
+                <FormItem className="flex flex-col space-y-1">
+                    <FormLabel>{label}</FormLabel>
+                    <FormControl>
+                        <Input
+                            id="email"
+                            type="email"
+                            placeholder={placeholder}
+                            value={value}
+                            onChange={handleChange}
+                            autoComplete="email"
+                            required={required}
+                        />
+                    </FormControl>
+                    {error && <FormMessage>{error}</FormMessage>}
+                </FormItem>
+            )}
+        />
     );
 }

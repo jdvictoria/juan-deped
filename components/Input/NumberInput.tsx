@@ -44,26 +44,24 @@ export default function NumberInput({
     };
 
     return (
-        <div>
-            <FormField
-                name="mobileNumber"
-                render={() => (
-                    <FormItem className="flex flex-col space-y-1">
-                        <FormLabel>{label}</FormLabel>
-                        <FormControl>
-                            <Input
-                                id="mobileNumber"
-                                type="tel"
-                                placeholder="09XXXXXXXXX"
-                                value={value}
-                                onChange={handleChange}
-                                required={required}
-                            />
-                        </FormControl>
-                        {error && <FormMessage>{error}</FormMessage>}
-                    </FormItem>
-                )}
-            />
-        </div>
+        <FormField
+            name="mobileNumber"
+            render={() => (
+                <FormItem className="flex flex-col space-y-1">
+                    <FormLabel>{label}</FormLabel>
+                    <FormControl>
+                        <Input
+                            id="mobileNumber"
+                            type="tel"
+                            placeholder="09XXXXXXXXX"
+                            value={value}
+                            onChange={handleChange}
+                            required={required}
+                        />
+                    </FormControl>
+                    {error && <FormMessage>{error}</FormMessage>}
+                </FormItem>
+            )}
+        />
     );
 }

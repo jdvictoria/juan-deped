@@ -1,19 +1,20 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { z } from "zod";
 
 import { Input } from "@/components/ui/input";
 import {
-    Form,
     FormControl,
     FormField,
     FormItem,
     FormLabel,
-    FormMessage
+    FormMessage,
 } from "@/components/ui/form";
 
-interface MobileInputProps {
+interface InputProps {
     label: string;
+    value: string;
+    setValue: (value: string) => void;
+    required: boolean;
 }
 
 const mobileNumberSchema = z.object({
@@ -22,39 +23,47 @@ const mobileNumberSchema = z.object({
         .regex(/^09\d{9}$/, { message: "Mobile number must start with 09 and be 11 digits long" })
 });
 
-type MobileNumberFormValues = z.infer<typeof mobileNumberSchema>;
+export default function NumberInput({
+    label,
+    value,
+    setValue,
+    required
+}: InputProps) {
+    const [error, setError] = useState<string | null>(null);
 
-export default function NumberInput({ label }: MobileInputProps) {
-    const form = useForm<MobileNumberFormValues>({
-        resolver: zodResolver(mobileNumberSchema),
-    });
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value;
+        setValue(newValue);
 
-    function onSubmit(values: MobileNumberFormValues) {
-        console.log(values);
-    }
+        const result = mobileNumberSchema.safeParse({ mobileNumber: newValue });
+        if (!result.success) {
+            setError(result.error.errors[0]?.message || "Invalid input");
+        } else {
+            setError(null);
+        }
+    };
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FormField
-                    control={form.control}
-                    name="mobileNumber"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-col space-y-2">
-                            <FormLabel>{label}</FormLabel>
-                            <FormControl>
-                                <Input
-                                    id="mobileNumber"
-                                    type="tel"
-                                    placeholder="09XXXXXXXXX"
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-            </form>
-        </Form>
+        <div>
+            <FormField
+                name="mobileNumber"
+                render={() => (
+                    <FormItem className="flex flex-col space-y-1">
+                        <FormLabel>{label}</FormLabel>
+                        <FormControl>
+                            <Input
+                                id="mobileNumber"
+                                type="tel"
+                                placeholder="09XXXXXXXXX"
+                                value={value}
+                                onChange={handleChange}
+                                required={required}
+                            />
+                        </FormControl>
+                        {error && <FormMessage>{error}</FormMessage>}
+                    </FormItem>
+                )}
+            />
+        </div>
     );
 }

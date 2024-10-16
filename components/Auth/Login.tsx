@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useForm, FormProvider } from "react-hook-form";
+
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -10,6 +13,12 @@ import EmailInput from "@/components/Input/EmailInput";
 import PasswordInput from "@/components/Input/PasswordInput";
 
 export default function Login() {
+    const methods = useForm();
+    const onSubmit = (data: any) => console.log(data);
+    
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+
     return (
         <Card>
             <CardHeader>
@@ -19,14 +28,28 @@ export default function Login() {
             </CardHeader>
 
             <CardContent className="space-y-2">
-                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                    <EmailInput  label={"Email Address"}/>
-                    <PasswordInput label={"Password"} mode={"Login"} />
+                <FormProvider {...methods}>
+                    <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                        <EmailInput
+                            label={"Email Address"}
+                            placeholder={"jdelacruz@gmail.com"}
+                            value={email}
+                            setValue={setEmail}
+                            required={true}
+                        />
+                        <PasswordInput
+                            label={"Password"}
+                            mode={"Login"}
+                            value={password}
+                            setValue={setPassword}
+                            required={true}
+                        />
 
-                    <Button type="submit" className="w-full">
-                        Login
-                    </Button>
-                </form>
+                        <Button type="submit" className="w-full">
+                            Login
+                        </Button>
+                    </form>
+                </FormProvider>
             </CardContent>
         </Card>
     )

@@ -1,70 +1,78 @@
+import { useState } from "react";
 import Link from "next/link";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Input } from "@/components/ui/input";
 import {
-    Form,
     FormControl,
     FormField,
     FormItem,
     FormLabel,
-    FormMessage
+    FormMessage,
 } from "@/components/ui/form";
 
-interface PasswordInputProps {
+interface InputProps {
     label: string;
     mode: string;
+    value: string;
+    setValue: (value: string) => void;
+    required: boolean;
 }
 
 const passwordSchema = z.object({
-    password: z.string().min(6, { message: "Password must be at least 6 characters" })
+    password: z
+        .string()
+        .min(6, { message: "Password must be at least 6 characters" })
+        .regex(/[A-Z]/, { message: "Password must contain at least 1 capital letter" })
+        .regex(/[0-9]/, { message: "Password must contain at least 1 number" })
+        .regex(/[\W_]/, { message: "Password must contain at least 1 symbol" }),
 });
 
-type PasswordFormValues = z.infer<typeof passwordSchema>;
+export default function PasswordInput({ label, mode, value, setValue, required }: InputProps) {
+    const [error, setError] = useState<string | null>(null);
 
-export default function PasswordInput({ label, mode }: PasswordInputProps) {
-    const form = useForm<PasswordFormValues>({
-        resolver: zodResolver(passwordSchema),
-    });
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value;
+        setValue(newValue);
 
-    function onSubmit(values: PasswordFormValues) {
-        console.log(values);
-    }
+        const result = passwordSchema.safeParse({ password: newValue });
+        if (!result.success) {
+            setError(result.error.errors[0]?.message || "Invalid input");
+        } else {
+            setError(null);
+        }
+    };
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-col space-y-2">
-                            <FormLabel>{label}</FormLabel>
-                            <FormControl>
-                                <Input
-                                    id="password"
-                                    type="password"
-                                    placeholder="••••••••"
-                                    autoComplete="current-password"
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                {mode === "Login" && (
-                    <div className="flex justify-end mt-2">
-                        <Link href="#" className="text-sm font-medium text-primary hover:underline">
-                            Forgot Password?
-                        </Link>
-                    </div>
+        <div>
+            <FormField
+                name="password"
+                render={() => (
+                    <FormItem className="flex flex-col space-y-1">
+                        <FormLabel>{label}</FormLabel>
+                        <FormControl>
+                            <Input
+                                id="password"
+                                type="password"
+                                placeholder="••••••••"
+                                value={value}
+                                onChange={handleChange}
+                                autoComplete="current-password"
+                                required={required}
+                            />
+                        </FormControl>
+                        {error && <FormMessage>{error}</FormMessage>}
+                    </FormItem>
                 )}
-            </form>
-        </Form>
+            />
+
+            {mode === "Login" && (
+                <div className="flex justify-end mt-2">
+                    <Link href="#" className="text-sm font-medium text-primary hover:underline">
+                        Forgot Password?
+                    </Link>
+                </div>
+            )}
+        </div>
     );
 }

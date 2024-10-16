@@ -10,7 +10,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 
-interface LicenseInputProps {
+interface InputProps {
     label: string;
     placeholder: string;
     value: string;
@@ -18,18 +18,27 @@ interface LicenseInputProps {
     required: boolean;
 }
 
-const licenseSchema = z.object({
-    license: z.string().min(2, { message: "License must be at least 2 characters" })
+const nameSchema = z.object({
+    name: z
+        .string()
+        .min(2, { message: "Name must be at least 2 characters" })
+        .regex(/^[a-zA-Z\s]+$/, { message: "Name must not contain symbols or numbers" }),
 });
 
-export default function LicenseInput({ label, placeholder, value, setValue, required }: LicenseInputProps) {
+export default function TextInput({
+    label,
+    placeholder,
+    value,
+    setValue,
+    required,
+}: InputProps) {
     const [error, setError] = useState<string | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
         setValue(newValue);
 
-        const result = licenseSchema.safeParse({ license: newValue });
+        const result = nameSchema.safeParse({ name: newValue });
         if (!result.success) {
             setError(result.error.errors[0]?.message || "Invalid input");
         } else {
@@ -40,18 +49,18 @@ export default function LicenseInput({ label, placeholder, value, setValue, requ
     return (
         <div>
             <FormField
-                name="license"
+                name="name"
                 render={() => (
                     <FormItem className="flex flex-col space-y-1">
                         <FormLabel>{label}</FormLabel>
                         <FormControl>
                             <Input
-                                id="license"
+                                id="name"
                                 type="text"
                                 placeholder={placeholder}
                                 value={value}
                                 onChange={handleChange}
-                                autoComplete="off"
+                                autoComplete="name"
                                 required={required}
                             />
                         </FormControl>

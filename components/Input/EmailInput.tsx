@@ -1,19 +1,21 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { z } from "zod";
 
 import { Input } from "@/components/ui/input";
 import {
-    Form,
     FormControl,
     FormField,
     FormItem,
     FormLabel,
-    FormMessage
+    FormMessage,
 } from "@/components/ui/form";
 
-interface EmailInputProps {
+interface InputProps {
     label: string;
+    placeholder: string;
+    value: string;
+    setValue: (value: string) => void;
+    required: boolean;
 }
 
 const emailSchema = z.object({
@@ -23,38 +25,49 @@ const emailSchema = z.object({
         .email({ message: "Invalid email address" }),
 });
 
-type EmailFormValues = z.infer<typeof emailSchema>;
+export default function EmailInput({
+    label,
+    placeholder,
+    value,
+    setValue,
+    required,
+}: InputProps) {
+    const [error, setError] = useState<string | null>(null);
 
-export default function EmailInput({ label }: EmailInputProps) {
-    const form = useForm<EmailFormValues>({
-        resolver: zodResolver(emailSchema),
-    });
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value;
+        setValue(newValue);
 
-    function onSubmit(values: EmailFormValues) {
-        console.log(values);
-    }
+        const result = emailSchema.safeParse({ email: newValue });
+        if (!result.success) {
+            setError(result.error.errors[0]?.message || "Invalid input");
+        } else {
+            setError(null);
+        }
+    };
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-col space-y-2">
-                            <FormLabel>{label}</FormLabel>
-                            <FormControl>
-                                <Input
-                                    placeholder="jdelacruz@gmail.com"
-                                    autoComplete="email"
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-            </form>
-        </Form>
+        <div>
+            <FormField
+                name="email"
+                render={() => (
+                    <FormItem className="flex flex-col space-y-1">
+                        <FormLabel>{label}</FormLabel>
+                        <FormControl>
+                            <Input
+                                id="email"
+                                type="email"
+                                placeholder={placeholder}
+                                value={value}
+                                onChange={handleChange}
+                                autoComplete="email"
+                                required={required}
+                            />
+                        </FormControl>
+                        {error && <FormMessage>{error}</FormMessage>}
+                    </FormItem>
+                )}
+            />
+        </div>
     );
 }

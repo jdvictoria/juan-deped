@@ -1,9 +1,7 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { z } from "zod";
 
 import {
-    Form,
     FormControl,
     FormField,
     FormItem,
@@ -18,54 +16,66 @@ import {
     SelectValue
 } from "@/components/ui/select";
 
-interface SelectInputProps {
+interface InputProps {
     label: string;
     data: string[];
+    value: string;
+    setValue: (value: string) => void;
+    required: boolean;
 }
 
 const selectSchema = z.object({
     select: z.string().min(1, { message: "Please select an item" })
 });
 
-type SelectFormValues = z.infer<typeof selectSchema>;
+export default function SelectInput({
+    label,
+    data,
+    value,
+    setValue,
+    required
+}: InputProps) {
+    const [error, setError] = useState<string | null>(null);
 
-export default function SelectInput({ label, data }: SelectInputProps) {
-    const form = useForm<SelectFormValues>({
-        resolver: zodResolver(selectSchema),
-    });
+    const handleChange = (newValue: string) => {
+        setValue(newValue);
 
-    function onSubmit(values: SelectFormValues) {
-        console.log(values);
-    }
+        const result = selectSchema.safeParse({ select: newValue });
+        if (!result.success) {
+            setError(result.error.errors[0]?.message || "Invalid selection");
+        } else {
+            setError(null);
+        }
+    };
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FormField
-                    control={form.control}
-                    name="select"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-col space-y-2">
-                            <FormLabel>{label}</FormLabel>
-                            <FormControl>
-                                <Select onValueChange={field.onChange} required>
-                                    <SelectTrigger className="border rounded-md p-2 w-full">
-                                        <SelectValue placeholder={`${data[0]}`} />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {data.map((item: string, index: number) => (
-                                            <SelectItem key={index} value={item}>
-                                                {item}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-            </form>
-        </Form>
+        <div>
+            <FormField
+                name="select"
+                render={() => (
+                    <FormItem className="flex flex-col space-y-1">
+                        <FormLabel>{label}</FormLabel>
+                        <FormControl>
+                            <Select
+                                onValueChange={handleChange}
+                                required={required}
+                            >
+                                <SelectTrigger className="border rounded-md p-2 w-full">
+                                    <SelectValue placeholder={value || "Select an item"} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {data.map((item: string, index: number) => (
+                                        <SelectItem key={index} value={item}>
+                                            {item}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </FormControl>
+                        {error && <FormMessage>{error}</FormMessage>}
+                    </FormItem>
+                )}
+            />
+        </div>
     );
 }

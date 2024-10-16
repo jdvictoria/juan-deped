@@ -1,18 +1,31 @@
-import { useState } from "react";
-
 import { Label } from "@/components/ui/label"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
-import NameInput from "@/components/Input/NameInput";
+import TextInput from "@/components/Input/TextInput";
 
-export default function BeneficiaryToggle() {
-    const [beneficiary, setBeneficiary] = useState<string>("");
+interface ToggleProps {
+    isBeneficiary: boolean;
+    beneficiary: string;
+    setIsBeneficiary: (value: boolean) => void;
+    setBeneficiary: (value: string) => void;
+}
 
+export default function BeneficiaryToggle({
+    isBeneficiary,
+    beneficiary,
+    setIsBeneficiary,
+    setBeneficiary,
+}: ToggleProps) {
     return (
         <div className="space-y-2">
-            <div className="space-y-1">
+            <div className="space-y-0">
                 <Label htmlFor="terms">Is your family a beneficiary of 4Ps?</Label>
-                <ToggleGroup type="single" value={beneficiary} onValueChange={setBeneficiary} className="w-full">
+                <ToggleGroup
+                    type="single"
+                    value={isBeneficiary ? "yes" : "no"}
+                    onValueChange={(value) => setIsBeneficiary(value === "yes")}
+                    className="w-full"
+                >
                     <ToggleGroupItem value="yes" aria-label="Yes" className="w-full" variant="outline">
                         Yes
                     </ToggleGroupItem>
@@ -22,8 +35,14 @@ export default function BeneficiaryToggle() {
                 </ToggleGroup>
             </div>
 
-            {beneficiary === "yes" && (
-                <NameInput label={"4Ps Household ID Number"} placeholder={"XXXXXX"}/>
+            {isBeneficiary && (
+                <TextInput
+                    label={"4Ps Household ID Number"}
+                    placeholder={"XXXXXX"}
+                    value={beneficiary}
+                    setValue={setBeneficiary}
+                    required={true}
+                />
             )}
         </div>
     );

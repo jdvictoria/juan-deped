@@ -1,18 +1,31 @@
-import { useState } from "react";
-
-import { Label } from "@/components/ui/label"
+import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
-import NameInput from "@/components/Input/NameInput";
+import TextInput from "@/components/Input/TextInput";
 
-export default function CommunityToggle() {
-    const [community, setCommunity] = useState<string>("");
+interface ToggleProps {
+    isWithCommunity: boolean;
+    community: string;
+    setIsWithCommunity: (value: boolean) => void;
+    setCommunity: (value: string) => void;
+}
 
+export default function CommunityToggle({
+    isWithCommunity,
+    community,
+    setIsWithCommunity,
+    setCommunity,
+}: ToggleProps) {
     return (
         <div className="space-y-2">
-            <div className="space-y-1">
+            <div className="space-y-0">
                 <Label htmlFor="terms">Do you belong to any IP Community?</Label>
-                <ToggleGroup type="single" value={community} onValueChange={setCommunity} className="w-full">
+                <ToggleGroup
+                    type="single"
+                    value={isWithCommunity ? "yes" : "no"}
+                    onValueChange={(value) => setIsWithCommunity(value === "yes")}
+                    className="w-full"
+                >
                     <ToggleGroupItem value="yes" aria-label="Yes" className="w-full" variant="outline">
                         Yes
                     </ToggleGroupItem>
@@ -22,8 +35,14 @@ export default function CommunityToggle() {
                 </ToggleGroup>
             </div>
 
-            {community === "yes" && (
-                <NameInput label={"Indigenous Community"} placeholder={"Igorot"}/>
+            {isWithCommunity && (
+                <TextInput
+                    label={"Indigenous Community"}
+                    placeholder={"Igorot"}
+                    value={community}
+                    setValue={setCommunity}
+                    required={true}
+                />
             )}
         </div>
     );

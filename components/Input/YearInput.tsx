@@ -84,12 +84,11 @@ export default function YearInput({
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form>
                 <FormField
-                    control={form.control}
                     name="date"
                     render={({ field }) => (
-                        <FormItem className="flex flex-col space-y-2">
+                        <FormItem className="flex flex-col space-y-1">
                             <FormLabel htmlFor="yearPicker">{label}</FormLabel>
                             <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>

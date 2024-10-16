@@ -1,14 +1,9 @@
-import { useState, useEffect } from "react";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { z } from "zod";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-    Form,
     FormControl,
-    FormField,
     FormItem,
     FormLabel,
     FormMessage,
@@ -19,71 +14,58 @@ interface ModalityInputProps {
         id: string;
         label: string;
     }[];
+    value: string[];
+    setValue: (value: string[]) => void;
 }
 
 const FormSchema = z.object({
-    items: z.array(z.string()).refine((value) => value.some((item) => item), {
+    items: z.array(z.string()).refine((value) => value.length > 0, {
         message: "You have to select at least one item.",
     }),
-})
+});
 
-export default function ModalityInput({ data }: ModalityInputProps) {
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
-        defaultValues: {
-            items: [],
-        },
-    });
+export default function ModalityInput({ data, value, setValue }: ModalityInputProps) {
+    const [error, setError] = useState<string | null>(null);
+
+    const handleCheckboxChange = (itemId: string) => {
+        const updatedItems = value.includes(itemId)
+            ? value.filter((id) => id !== itemId)
+            : [...value, itemId];
+
+        setValue(updatedItems);
+
+        const result = FormSchema.safeParse({ items: updatedItems });
+        if (!result.success) {
+            setError(result.error.errors[0]?.message || "Invalid input");
+        } else {
+            setError(null);
+        }
+    };
 
     return (
-        <Form {...form}>
-            <form className="space-y-8">
-                <FormField
-                    control={form.control}
-                    name="items"
-                    render={() => (
-                        <FormItem className="flex flex-col space-y-2">
-                            <FormLabel>Preferred Learning Modality/ies</FormLabel>
-                            <div className="grid grid-cols-2 gap-4">
-                                {data.map((item) => (
-                                    <FormField
-                                        key={item.id}
-                                        control={form.control}
-                                        name="items"
-                                        render={({ field }) => {
-                                            return (
-                                                <FormItem
-                                                    key={item.id}
-                                                    className="flex flex-row items-start space-x-3 space-y-0"
-                                                >
-                                                    <FormControl>
-                                                        <Checkbox
-                                                            checked={field.value?.includes(item.id)}
-                                                            onCheckedChange={(checked) => {
-                                                                return checked
-                                                                    ? field.onChange([...field.value, item.id])
-                                                                    : field.onChange(
-                                                                        field.value?.filter(
-                                                                            (value) => value !== item.id
-                                                                        )
-                                                                    );
-                                                            }}
-                                                        />
-                                                    </FormControl>
-                                                    <FormLabel className="font-normal">
-                                                        {item.label}
-                                                    </FormLabel>
-                                                </FormItem>
-                                            );
-                                        }}
-                                    />
-                                ))}
-                            </div>
-                            <FormMessage />
+        <div>
+            <FormItem className="flex flex-col space-y-2">
+                <FormLabel className="text-sm font-semibold">Preferred Learning Modality/ies</FormLabel>
+                <div className="grid grid-cols-2 gap-4">
+                    {data.map((item) => (
+                        <FormItem
+                            key={item.id}
+                            className="flex flex-row items-start space-x-3 space-y-0"
+                        >
+                            <FormControl>
+                                <Checkbox
+                                    checked={value.includes(item.id)}
+                                    onCheckedChange={() => handleCheckboxChange(item.id)}
+                                />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                                {item.label}
+                            </FormLabel>
                         </FormItem>
-                    )}
-                />
-            </form>
-        </Form>
+                    ))}
+                </div>
+                {error && <FormMessage>{error}</FormMessage>}
+            </FormItem>
+        </div>
     );
 }

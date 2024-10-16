@@ -3,7 +3,7 @@ import { useForm, FormProvider } from "react-hook-form";
 
 import { ChevronLeft } from "lucide-react";
 
-import { toast } from "sonner"
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import {
@@ -26,6 +26,7 @@ import { addStudentData } from "@/lib/profile";
 
 export default function Register() {
     const methods = useForm();
+    const { toast } = useToast();
 
     const [step, setStep] = useState<number>(1);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -241,13 +242,13 @@ export default function Register() {
 
             if (addStudentResult.success) {
                 clearForm();
-                toast("Account registered successfully");
+                toast({ title: "Account registered successfully" });
                 window.location.href = "/";
             } else {
-                toast("Account registration unsuccessful");
+                toast({ title: "Account registration unsuccessful" });
             }
         } else {
-            toast("Account registration unsuccessful");
+            toast({ title: "Account registration unsuccessful" });
         }
     };
 

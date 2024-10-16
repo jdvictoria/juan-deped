@@ -1,8 +1,9 @@
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, FormProvider } from "react-hook-form";
 
-import { toast } from "sonner"
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import {
@@ -20,6 +21,7 @@ import { loginUser } from "@/lib/auth";
 export default function Login() {
     const methods = useForm();
     const router = useRouter();
+    const { toast } = useToast();
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     
@@ -40,10 +42,10 @@ export default function Login() {
 
         if (result.success) {
             clearForm();
-            toast.success("Login successful");
+            toast({ title: "Login Successful" });
             router.push(`/${result.role}`);
         } else {
-            toast.error("Login unsuccessful");
+            toast({ title: "Login Unsuccessful" });
         }
     };
 

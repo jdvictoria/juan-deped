@@ -113,7 +113,7 @@ export async function addStudentData(
     } = studentData;
 
     const { error } = await supabase
-        .from('student')
+        .from('users')
         .insert([
             {
                 id: userId,
@@ -168,6 +168,7 @@ export async function addStudentData(
                 strand,
                 is_first_semester: isFirstSemester,
                 modalities,
+                role: 'student',
             }
         ]);
 

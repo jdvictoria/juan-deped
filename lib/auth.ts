@@ -23,3 +23,28 @@ export async function registerUser(
 
     return { success: true, user };
 }
+
+export async function loginUser(
+    email: string,
+    password: string
+) {
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (authError || !authData.user) {
+        return { success: false, message: authError?.message || 'Login failed' };
+    }
+
+    const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('role')
+        .eq('id', authData.user.id)
+        .single();
+
+    if (userError || !userData) {
+        return { success: false, message: userError?.message || 'Role fetch failed' };
+    }
+
+    localStorage.setItem('userId', authData.user.id);
+    
+    return { success: true, role: userData.role };
+}

@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm, FormProvider } from "react-hook-form";
 
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import {
     Card,
     CardContent,
@@ -12,12 +15,37 @@ import {
 import EmailInput from "@/components/Input/EmailInput";
 import PasswordInput from "@/components/Input/PasswordInput";
 
+import { loginUser } from "@/lib/auth";
+
 export default function Login() {
     const methods = useForm();
-    const onSubmit = (data: any) => console.log(data);
+    const router = useRouter();
+
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
+    const clearForm = () => {
+        setEmail("");
+        setPassword("");
+    }
+
+    const handleSubmit = async () => {
+        setIsLoading(true);
+
+        const result = await loginUser(email, password);
+
+        setIsLoading(false);
+
+        if (result.success) {
+            clearForm();
+            toast.success("Login successful");
+            router.push(`/${result.role}`);
+        } else {
+            toast.error("Login unsuccessful");
+        }
+    };
 
     return (
         <Card>
@@ -44,12 +72,14 @@ export default function Login() {
                             setValue={setPassword}
                             required={true}
                         />
-
-                        <Button type="submit" className="w-full">
-                            Login
-                        </Button>
                     </form>
                 </FormProvider>
+                <Button
+                    className="w-full" onClick={handleSubmit}
+                    disabled={isLoading || email === "" || password === ""}
+                >
+                    {isLoading ? <Spinner /> : "Login"}
+                </Button>
             </CardContent>
         </Card>
     )

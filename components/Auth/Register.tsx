@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useRouter } from 'next/navigation';
 import { useForm, FormProvider } from "react-hook-form";
 
 import { ChevronLeft } from "lucide-react";
@@ -27,7 +26,6 @@ import { addStudentData } from "@/lib/profile";
 
 export default function Register() {
     const methods = useForm();
-    const router = useRouter();
 
     const [step, setStep] = useState<number>(1);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -243,19 +241,13 @@ export default function Register() {
 
             if (addStudentResult.success) {
                 clearForm();
-                toast("Account registered successfully", {
-                    description: "You need to verify your email before signing in.",
-                });
+                toast("Account registered successfully");
                 window.location.href = "/";
             } else {
-                toast("Account registration unsuccessful", {
-                    description: addStudentResult.message,
-                });
+                toast("Account registration unsuccessful");
             }
         } else {
-            toast("Account registration unsuccessful", {
-                description: "Account is already taken with this email.",
-            });
+            toast("Account registration unsuccessful");
         }
     };
 

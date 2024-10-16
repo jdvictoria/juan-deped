@@ -45,6 +45,16 @@ export async function loginUser(
     }
 
     localStorage.setItem('userId', authData.user.id);
-    
+
     return { success: true, role: userData.role };
+}
+
+export async function logoutUser() {
+    try {
+        localStorage.clear();
+
+        await supabase.auth.signOut();
+    } catch (error) {
+        return false;
+    }
 }

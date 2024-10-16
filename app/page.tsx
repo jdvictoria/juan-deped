@@ -30,7 +30,7 @@ export default function Component() {
             </div>
 
             <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-                <Tabs defaultValue="login" className="w-full sm:w-[25vw]">
+                <Tabs defaultValue="login" className="w-full sm:w-[30vw]">
                     <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="login">Login</TabsTrigger>
                         <TabsTrigger value="register">Register</TabsTrigger>

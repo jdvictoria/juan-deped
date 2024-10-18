@@ -3,11 +3,11 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Teacher() {
+export default function Registrar() {
     const router = useRouter();
 
     useEffect(() => {
-        router.replace("/teacher/home");
+        router.replace("/registrar/home");
     }, [router]);
 
     return null;

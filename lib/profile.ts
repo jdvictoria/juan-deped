@@ -1,59 +1,5 @@
 import { supabase } from "@/lib/supabase";
-
-interface StudentDataProps {
-    firstName: string;
-    middleName?: string;
-    lastName: string;
-    extensionName?: string;
-    birthDate: Date | undefined;
-    gender: string;
-    mobileNumber: string;
-    isWithLrn: boolean;
-    isReturning: boolean;
-    schoolYear: number;
-    gradeLevel: string;
-    birthPlace: string;
-    motherTongue: string;
-    birthCertificate: string;
-    learnerReference: string;
-    isWithCommunity: boolean;
-    community?: string;
-    isBeneficiary: boolean;
-    beneficiary?: string;
-    currentHouseNumber: string;
-    currentStreet: string;
-    currentBarangay: string;
-    currentCity: string;
-    currentProvince: string;
-    currentCountry: string;
-    permanentHouseNumber: string;
-    permanentStreet: string;
-    permanentBarangay: string;
-    permanentCity: string;
-    permanentProvince: string;
-    permanentCountry: string;
-    fatherFirstName: string;
-    fatherMiddleName?: string;
-    fatherLastName: string;
-    fatherExtensionName?: string;
-    motherFirstName: string;
-    motherMiddleName?: string;
-    motherLastName: string;
-    motherExtensionName?: string;
-    guardianFirstName: string;
-    guardianMiddleName?: string;
-    guardianLastName: string;
-    guardianExtensionName?: string;
-    yearCompleted: number;
-    gradeCompleted: string;
-    lastSchoolAttended: string;
-    lastSchoolId: string;
-    track?: string;
-    strand?: string;
-    isFirstSemester: boolean;
-    modalities?: string[];
-    role: string;
-}
+import { StudentProfile } from "@/types/profile";
 
 interface TeacherDataProps {
     firstName: string;
@@ -68,7 +14,7 @@ interface TeacherDataProps {
 
 export async function addStudentData(
     userId: string | undefined,
-    studentData: StudentDataProps
+    studentData: StudentProfile
 ) {
     const {
         firstName,
@@ -227,4 +173,20 @@ export async function addTeacherData(
     }
 
     return { success: true };
+}
+
+export async function fetchProfile() {
+    const id = localStorage.getItem('userId');
+
+    const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+    if (error) {
+        return { success: false, message: error?.message || 'Profile fetch failed' };
+    }
+
+    return { success: true, data };
 }

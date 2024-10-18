@@ -185,6 +185,7 @@ export default function Register() {
             const userId = result.user?.id;
 
             const studentData = {
+                email,
                 firstName,
                 middleName,
                 lastName,

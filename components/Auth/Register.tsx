@@ -236,6 +236,7 @@ export default function Register() {
                 strand,
                 isFirstSemester,
                 modalities,
+                role: "student"
             };
 
             const addStudentResult = await addStudentData(userId, studentData);
@@ -409,7 +410,8 @@ export default function Register() {
                     </form>
                 </FormProvider>
                 <Button
-                    className="w-full" onClick={step === 6 ? handleSubmit : () => setStep(step + 1)}
+                    className="w-full"
+                    onClick={step === 6 ? handleSubmit : () => setStep(step + 1)}
                     disabled={isLoading || isStep6FieldsInvalid}
                 >
                     {isLoading ? <Spinner /> : (step === 6 ? "Register" : "Next")}

@@ -1,9 +1,8 @@
 [
   "Principal",
   "Asst. Principal",
+  "Registrar",
   "Level Coordinator",
   "Subject Coordinator",
-  "Teacher",
-  "Student",
-  "Parent"
+  "Teacher"
 ]

@@ -77,8 +77,9 @@ export default function Login() {
                     </form>
                 </FormProvider>
                 <Button
-                    className="w-full" onClick={handleSubmit}
-                    disabled={isLoading || email === "" || password === ""}
+                    className="w-full"
+                    onClick={handleSubmit}
+                    disabled={isLoading}
                 >
                     {isLoading ? <Spinner /> : "Login"}
                 </Button>

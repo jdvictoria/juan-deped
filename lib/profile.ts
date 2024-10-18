@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase";
 
-interface StudentData {
+interface StudentDataProps {
     firstName: string;
     middleName?: string;
     lastName: string;
@@ -52,11 +52,23 @@ interface StudentData {
     strand?: string;
     isFirstSemester: boolean;
     modalities?: string[];
+    role: string;
+}
+
+interface TeacherDataProps {
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+    extensionName?: string;
+    birthDate: Date | undefined;
+    gender: string;
+    mobileNumber: string;
+    role: string;
 }
 
 export async function addStudentData(
     userId: string | undefined,
-    studentData: StudentData
+    studentData: StudentDataProps
 ) {
     const {
         firstName,
@@ -169,6 +181,44 @@ export async function addStudentData(
                 is_first_semester: isFirstSemester,
                 modalities,
                 role: 'student',
+            }
+        ]);
+
+    if (error) {
+        return { success: false, message: error.message };
+    }
+
+    return { success: true };
+}
+
+export async function addTeacherData(
+    userId: string | undefined,
+    teacherData: TeacherDataProps
+) {
+    const {
+        firstName,
+        middleName,
+        lastName,
+        extensionName,
+        birthDate,
+        gender,
+        mobileNumber,
+        role
+    } = teacherData;
+
+    const { error } = await supabase
+        .from('users')
+        .insert([
+            {
+                id: userId,
+                first_name: firstName,
+                middle_name: middleName,
+                last_name: lastName,
+                extension_name: extensionName,
+                birth_date: birthDate,
+                gender,
+                mobile_number: mobileNumber,
+                role: role.toLowerCase(),
             }
         ]);
 

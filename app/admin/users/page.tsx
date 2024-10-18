@@ -2,6 +2,7 @@
 
 import DataTable from "@/components/Admin/DataTable";
 import NavigationBar from "@/components/Admin/NavigationBar";
+import AccountForm from "@/components/Admin/AccountForm";
 
 export default function AdminUsers() {
     return (
@@ -13,7 +14,7 @@ export default function AdminUsers() {
             </header>
 
             <main className={`flex flex-1 flex-col sm:flex-row gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 justify-center items-center`}>
-                <DataTable section={"Approval Requests"}/>
+                <AccountForm/>
                 <DataTable section={"Current Users"}/>
             </main>
         </div>

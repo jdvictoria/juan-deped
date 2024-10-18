@@ -11,7 +11,7 @@ import {
 
 import {
     Home,
-    Mail,
+    School,
     Settings,
     LogOut,
     Bell
@@ -50,6 +50,18 @@ export default function Navigation({
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent side="right">Home</TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    variant={activeTab === "school" ? "default" : "ghost"}
+                                    onClick={() => router.push("/student/school")}
+                                >
+                                    <School className="h-5 w-5"/>
+                                    <span className="sr-only">School</span>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right">School</TooltipContent>
                         </Tooltip>
                         <Tooltip>
                             <TooltipTrigger asChild>
